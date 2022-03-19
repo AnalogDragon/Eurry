@@ -1,0 +1,12 @@
+<!--pages/info/info.wxml-->
+<view style="display: flex; flex-direction: column;">
+    <view style="display: flex;flex-direction: column; justify-content: center; align-items: center;font-size: 18px">
+        <text>\n\n长按复制</text>
+    </view>
+    <view style="display: flex;flex-direction: column; justify-content: center; align-items: center;font-size: 18px">
+        <text>\n\n</text>
+    </view>
+    <view style="display: flex;flex-direction: column; justify-content: center; align-items: center;font-size: 18px">
+        <text selectable="true" user-select="true">github.com/AnalogDragon/Eurry</text>
+    </view>
+</view>

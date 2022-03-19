@@ -1,0 +1,107 @@
+<canvas id="canvas" type="2d" height="600" width="448" style="display:none; height: 600px; width: 448px;">
+</canvas>
+
+
+<view class="topclass" style="display: flex; flex-direction: column;">
+
+    <view style="height: 10%;">
+        <view style="display: flex; flex-direction: row; justify-content:space-between;">
+            <view style="width: 30%; margin: 2% ;">
+                <button bindtap='imgReset' style="width: 100%;background-color: rgb(207, 207, 207);	color: rgb(43, 43, 43);">复位</button>
+            </view>
+            <view style="width: 30%; margin: 2% ;">
+                <button bindtap='submit' style="width: 100%;background-color: rgb(207, 207, 207); color: rgb(43, 43, 43);">确定</button>
+            </view>
+        </view>
+    </view>
+
+    <view style="height: 50%; display: flex;flex-direction: column; justify-content: center; align-items: center;">
+        <image bindtap="clickcut" src="{{imgSrcOUT}}" mode="aspectFit" style="height: 100%;margin: 2%;"></image>
+    </view>
+
+    <!-- 滑条 -->
+    <block wx:if="{{SetHSL}}">
+        <view style=" height: 30%;display: flex;flex-direction: column; justify-content: center; align-items: center;">
+            <view style="width: 100%; margin: 0% auto;display: flex;flex-direction: row;align-items: center; justify-content: center;">
+                <view style="width: 2%;"></view>
+                <view style="width: 15%;">对比度</view>
+                <view style="width: 83%;">
+                    <slider bindchange="doSilderD" value="{{valueD}}" min="-100" max="100" show-value />
+                </view>
+            </view>
+            <view style="width: 100%; margin: 0% auto;display: flex;flex-direction: row;align-items: center; justify-content: center;">
+                <view style="width: 2%;"></view>
+                <view style="width: 15%;">亮 度</view>
+                <view style="width: 83%;">
+                    <slider bindchange="doSilderL" value="{{valueL}}" min="-100" max="100" show-value />
+                </view>
+            </view>
+            <view style="width: 100%; margin: 0% auto;display: flex;flex-direction: row;align-items: center; justify-content: center;">
+                <view style="width: 2%;"></view>
+                <view style="width: 15%;">饱和度</view>
+                <view style="width: 83%;">
+                    <slider bindchange="doSilderS" value="{{valueS}}" min="-100" max="100" show-value />
+                </view>
+            </view>
+            <view style="width: 100%; margin: 0% auto;display: flex;flex-direction: row;align-items: center; justify-content: center;">
+                <view style="width: 2%;"></view>
+                <view style="width: 15%;">抖动量</view>
+                <view style="width: 83%;">
+                    <slider bindchange="doSilderQ" value="{{valueQ}}" min="0" max="100" show-value />
+                </view>
+            </view>
+        </view>
+    </block>
+
+    <block wx:else>
+
+        <view style=" height: 30%;display: flex;flex-direction: column; justify-content: center; align-items: center;">
+            <view style="width: 100%; margin: 0% auto;display: flex;flex-direction: row;align-items: center; justify-content: center;">
+                <view style="width: 2%;"></view>
+                <view style="width: 8%;">红</view>
+                <view style="width: 90%;">
+                    <slider bindchange="doSilderR" value="{{valueR}}" min="-100" max="100" show-value />
+                </view>
+            </view>
+            <view style="width: 100%; margin: 0% auto;display: flex;flex-direction: row;align-items: center; justify-content: center;">
+                <view style="width: 2%;"></view>
+                <view style="width: 8%;">绿</view>
+                <view style="width: 90%;">
+                    <slider bindchange="doSilderG" value="{{valueG}}" min="-100" max="100" show-value />
+                </view>
+            </view>
+            <view style="width: 100%; margin: 0% auto;display: flex;flex-direction: row;align-items: center; justify-content: center;">
+                <view style="width: 2%;"></view>
+                <view style="width: 8%;">蓝</view>
+                <view style="width: 90%;">
+                    <slider bindchange="doSilderB" value="{{valueB}}" min="-100" max="100" show-value />
+                </view>
+            </view>
+        </view>
+
+    </block>
+
+    <view style="height: 10%;">
+        <view style="display: flex; flex-direction: row; justify-content:space-between;">
+            <view style="width: 30%; margin: 2% ;">
+                <button bindtap='exchangeHSL' style="width: 100%;background-color: rgb(207, 207, 207);	color: rgb(43, 43, 43);">切换</button>
+            </view>
+            <view style="display: flex; align-items: center; margin: 2%;">
+                <switch bindchange="switch1Change" />
+            </view>
+            <view style="width: 30%; margin: 2% ;">
+                <button bindtap='exchangeDithor' style="width: 100%;background-color: rgb(207, 207, 207);	color: rgb(43, 43, 43);">预览</button>
+            </view>
+        </view>
+    </view>
+
+</view>
+
+<!-- <view class='bottom'>
+    <view class="block">
+        <button class="button" bindtap='rgbReset'>复位</button>
+    </view>
+    <view class="block">
+        <button class="button" bindtap='submit'>确定</button>
+    </view>
+</view> -->

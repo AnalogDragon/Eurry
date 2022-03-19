@@ -1,0 +1,59 @@
+<!--pages/sendPage/sendPage.wxml-->
+
+
+
+<canvas id="canvas" type="2d" height="600" width="448" style="display:none; height: 600px; width: 448px;">
+</canvas>
+
+
+<wxs module="utils">
+  module.exports.max = function (n1, n2) {
+    return Math.max(n1, n2)
+  }
+  module.exports.len = function (arr) {
+    arr = arr || []
+    return arr.length
+  }
+</wxs>
+
+<view style="height: 100%; display: flex; flex-direction: column;">
+  <block wx:if="{{connected}}">
+    <text style="font-size: 22px">连接成功！</text>
+    <view style="background-color: rgb(172, 255, 186);width: 100%;">
+      <view style="font-size: 22px">{{name}}，电量：{{battery}}%</view>
+      <view style="font-size: 14px">ID: {{deviceId}}</view>
+    </view>
+    <block wx:if="{{devicesBusyFlag}}">
+      <text style="font-size: 22px">设备忙</text>
+    </block>
+    <block wx:else>
+      <text style="font-size: 22px">设备空闲</text>
+    </block>
+    <!-- 下面是一些按钮 -->
+
+    <view style="bottom: 0%; display: flex;flex-direction: column; justify-content: center; align-items: center;">
+
+      <button bindtap="sendPic" style="width: 70%;  margin: 3%; background-color: rgb(207, 207, 207) ;color: rgb(43, 43, 43);">发送图片</button>
+
+      <button bindtap="buttonFresh" style="width: 70%;  margin: 3%; background-color: rgb(207, 207, 207) ;color: rgb(43, 43, 43);">刷新屏幕</button>
+
+      <button bindtap="buttonClear" style="width: 70%;  margin: 3%; background-color: rgb(207, 207, 207) ;color: rgb(43, 43, 43);">清空屏幕</button>
+
+      <button bindtap="buttonPowerOFF" style="width: 70%;  margin: 3%; background-color: rgb(207, 207, 207) ;color: rgb(43, 43, 43);">休眠</button>
+
+      <view style="margin-top: 3%; width: 70%; display: flex; flex-direction: row; justify-content:space-between;">
+        <view style="display: flex; align-items: center;"><text>自动刷新</text></view>
+        <view style="display: flex; align-items: center;"><switch checked bindchange="switch1Change" /></view>
+      </view>
+
+    </view>
+  </block>
+  <block wx:else>
+    <text style="font-size: 22px">选择设备</text>
+    <view wx:for="{{devices}}" wx:key="index" data-device-id="{{item.deviceId}}" data-name="{{item.name || item.localName}}" bindtap="createBLEConnection" style="background-color: rgb(218, 218, 218);width: 100%;">
+      <view style="font-size: 22px">{{item.name}}</view>
+      <view style="font-size: 16px">ID: {{item.deviceId}}</view>
+    </view>
+  </block>
+
+</view>

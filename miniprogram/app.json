@@ -1,0 +1,18 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/component/image-cropper/image-cropper",
+        "pages/cropper/cropper",
+        "pages/sendPage/sendPage",
+        "pages/imagefilters/imagefilters",
+        "pages/info/info"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "Weixin",
+        "navigationBarTextStyle": "black"
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json"
+}

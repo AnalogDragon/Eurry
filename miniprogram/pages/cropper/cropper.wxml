@@ -1,0 +1,15 @@
+<text class="hint">单击查看，双指缩放</text>
+
+<view style="width:100%;height:500rpx;">
+    <image-cropper id="image-cropper" bindload="cropperload" bindimageload="loadimage" bindtapcut="clickcut" limit_move="{{limit_move}}" disable_rotate="{{disable_rotate}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}" angle="{{angle}}" disable_width="{{disable_width}}" max_width="{{max_width}}" max_height="{{max_height}}" disable_height="{{disable_height}}" disable_ratio="{{disable_ratio}}">
+    </image-cropper>
+</view>
+
+<view class='bottom'>
+    <view class="block">
+        <button class="button" catchtouchstart='rotate' catchtouchend='end' data-type="rotate">旋转</button>
+    </view>
+    <view class="block">
+        <button class="button" bindtap='submit'>确定</button>
+    </view>
+</view>

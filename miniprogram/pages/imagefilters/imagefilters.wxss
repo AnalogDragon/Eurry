@@ -1,0 +1,35 @@
+/* pages/imagefilters/imagefilters.wxss */
+
+.topclass {
+	height: 100vh;
+	overflow: hidden
+}
+
+.bottom {
+	z-index: 2;
+	overflow: hidden;
+	margin-bottom: 0;
+	width: 96%;
+	position: fixed;
+	bottom: 5%;
+	left: 2%;
+	right: 2%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.block {
+	margin: 0%;
+	width: 30%;
+	height: 30%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.button {
+	background-color: rgb(207, 207, 207);
+	color: rgb(43, 43, 43);
+	overflow: hidden;
+	width: 30%;
+	font-size: 100%
+}

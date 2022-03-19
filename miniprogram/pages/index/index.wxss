@@ -1,0 +1,8 @@
+/**index.wxss**/
+
+.topclass{
+  height: 100vh;
+  overflow: hidden
+}
+
+
