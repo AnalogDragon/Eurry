@@ -40,12 +40,13 @@ Page({
 
   buttonPicSelect() {
     //选择照片
-    wx.chooseImage({
+    wx.chooseMedia({
       count: 1,
       sizeType: ['original'],
       sourceType: ['album'],
+
       success: (res) => {
-        var url = res.tempFilePaths[0];
+        var url = res.tempFiles.tempFilePath;
         wx.getImageInfo({
           src: url,
           success: (res) => {
@@ -80,7 +81,7 @@ Page({
       url: '/pages/sendPage/sendPage',
     })
   },
-  buttonInfo(){
+  buttonInfo() {
     wx.navigateTo({
       url: '/pages/info/info',
     })
