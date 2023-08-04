@@ -221,13 +221,28 @@ Page({
   sendFream(num) {
     let addr = (num * 70 + this.data.send_count) * 240;
     let buffer = this.data.sendBuffer.slice(addr, addr + 240);
+    let bufferu8b = new Uint8Array(buffer);
+    let buffer1 = new ArrayBuffer(241);
+    let buffer1u8b = new Uint8Array(buffer1);
+    for (let i = 0; i < 240; i++) {
+      buffer1u8b[i + 1] = bufferu8b[i];
+    }
+    buffer1u8b[0] = this.data.send_count + 1;
 
+    let my_writeType;
+
+    if(this.data.send_count == 35){
+      my_writeType = 'write'
+    }
+    else{
+      my_writeType = 'writeNoResponse'
+    }
     wx.writeBLECharacteristicValue({
       deviceId: this.data.deviceId,
       serviceId: this.data.UUID_main,
       characteristicId: this.data.UUID_tx,
-      value: buffer,
-      writeType: 'writeNoResponse',
+      value: buffer1,
+      writeType: my_writeType,
       success: () => {
         this.data.send_count++;
         if (this.data.send_count < 70) {
@@ -235,22 +250,44 @@ Page({
             return;
           }
           this.sendFream(num);
+        } else {
+          this.sendFreamEnd();
         }
         this.dispPCT((num + 1) * 10 + this.data.send_count / 7);
       },
       fail: () => {
-        this.failedMessage("发送中断");
+        this.failedMessage("发送中断:1");
+      },
+    })
+  },
+
+  sendFreamEnd() {
+    let buffer1 = new ArrayBuffer(1);
+    let buffer1u8b = new Uint8Array(buffer1);
+    buffer1u8b[0] = 0x55;
+
+    wx.writeBLECharacteristicValue({
+      deviceId: this.data.deviceId,
+      serviceId: this.data.UUID_main,
+      characteristicId: this.data.UUID_tx,
+      value: buffer1,
+      writeType: 'write',
+      success: () => {
+
+      },
+      fail: () => {
+        this.failedMessage("发送中断:3");
       },
     })
   },
 
   //发送整组240byte*70
-  sendGroup(num) {
+  sendGroup(num, count_at) {
     console.log("sendGroup" + num);
     if (num >= 8) {
       return;
     }
-    this.data.send_count = 0;
+    this.data.send_count = count_at;
     this.sendFream(num);
   },
 
@@ -270,7 +307,7 @@ Page({
       } else if (characteristic.characteristicId == this.data.UUID_rx) {
         console.log("RX DATA:" + ab2hex(characteristic.value));
         var bufferu8b = new Uint8Array(characteristic.value);
-        if (bufferu8b[0] == 0) {
+        if (bufferu8b[0] == 0xAA) {
           if (this.data.send_step > 0) {
             console.log("step " + this.data.send_step + " done")
             //当前正在发送
@@ -281,7 +318,7 @@ Page({
 
             if (this.data.send_step < 9) {
               //发送数据
-              this.sendGroup(this.data.send_step - 1); //0~8
+              this.sendGroup(this.data.send_step - 1, 0); //0~8
               this.data.send_step++;
             } else if (this.data.send_step == 9) {
               if (this.data.need_auto_refresh) {
@@ -294,6 +331,10 @@ Page({
               this.data.send_step = 0;
               wx.hideToast();
             }
+          }
+        } else {
+          if (bufferu8b[0] > 0 && bufferu8b[0] <= 70) {
+            this.sendGroup(this.data.send_step - 2, bufferu8b[0] - 1)
           }
         }
         console.log("RX DATA:" + ab2hex(characteristic.value));
@@ -459,7 +500,7 @@ Page({
     // errors[4] = this.getColorError(R1, G1, B1, 0x9B, 0x22, 0x00);
     // errors[5] = this.getColorError(R1, G1, B1, 0xFF, 0xFF, 0x00);
     // errors[6] = this.getColorError(R1, G1, B1, 0xFF, 0x80, 0x22);
-    
+
     errors[0] = this.getColorError(R1, G1, B1, 0x28, 0x23, 0x32);
     errors[1] = this.getColorError(R1, G1, B1, 0xF3, 0xF3, 0xF3);
     errors[2] = this.getColorError(R1, G1, B1, 0x49, 0x89, 0x3D);
@@ -467,7 +508,7 @@ Page({
     errors[4] = this.getColorError(R1, G1, B1, 0xC2, 0x40, 0x40);
     errors[5] = this.getColorError(R1, G1, B1, 0xDB, 0xCE, 0x63);
     errors[6] = this.getColorError(R1, G1, B1, 0xC4, 0x99, 0x49);
-    
+
     let num = 0;
     let error_min = errors[0];
     for (let i = 1; i < 7; i++) {
