@@ -46,7 +46,7 @@ Page({
       sourceType: ['album'],
 
       success: (res) => {
-        var url = res.tempFiles.tempFilePath;
+        var url = res.tempFiles[0].tempFilePath;
         wx.getImageInfo({
           src: url,
           success: (res) => {
